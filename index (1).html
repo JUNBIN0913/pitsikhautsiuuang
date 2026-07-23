@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>僻字考究網</title>
+<style>
+@font-face{font-family:'TW-Kai';src:url('fonts/TW-Kai-98_1.ttf') format('truetype');font-display:swap;}
+@font-face{font-family:'TW-Kai-Plus';src:url('fonts/TW-Kai-Plus-98_1.ttf') format('truetype');font-display:swap;}
+@font-face{font-family:'TW-Kai-ExtB';src:url('fonts/TW-Kai-Ext-B-98_1.ttf') format('truetype');unicode-range:U+20000-2FFFF;font-display:swap;}
+@font-face{font-family:'NomNaTong';src:url('fonts/NomNaTong-Regular.otf') format('opentype');font-display:swap;}
+@font-face{font-family:'WenJinMincho';src:url('fonts/WenJinMincho-Plane0.woff2') format('woff2');font-display:swap;}
+
+:root{
+  --paper:#EAE3D2; --paper-deep:#DFD6BE; --paper-card:#F1EBDC;
+  --ink:#262220; --ink-soft:#54493d;
+  --seal:#A8382B; --seal-deep:#832A20;
+  --jade:#5E7B6E; --stone:#948C77; --gold:#AD8A4E; --line:#c9bd9e;
+  --indigo:#3B4F63;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'TW-Kai','Times New Roman',serif;line-height:1.7;
+  background-image:radial-gradient(circle at 20% 10%, rgba(0,0,0,0.025) 0, transparent 45%),radial-gradient(circle at 80% 60%, rgba(0,0,0,0.02) 0, transparent 50%);}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+/* ================= SHARED TOP NAV ================= */
+.site-topnav{background:var(--ink);color:var(--paper-card);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;font-family:'Times New Roman',serif;font-size:13px;}
+.site-topnav .site-mark{font-family:'WenJinMincho','TW-Kai',serif;font-size:15px;letter-spacing:.08em;cursor:pointer;}
+.site-topnav .nav-actions{display:flex;gap:14px;align-items:center;}
+.site-topnav .nav-btn{background:transparent;border:1px solid rgba(255,255,255,.4);color:var(--paper-card);padding:5px 14px;border-radius:14px;cursor:pointer;font-family:'Times New Roman',serif;font-size:12.5px;}
+.site-topnav .nav-btn:hover{border-color:var(--gold);color:var(--gold);}
+.site-topnav .nav-link{cursor:pointer;border-bottom:1px dotted rgba(255,255,255,.5);}
+.site-topnav .nav-link:hover{color:var(--gold);border-color:var(--gold);}
+
+/* ================= PUBLIC SITE ================= */
+header.hero{padding:56px 0 40px;border-bottom:1px solid var(--line);position:relative;}
+h1.title{font-family:'WenJinMincho','TW-Kai',serif;font-size:clamp(40px,7vw,68px);margin:0 0 10px;color:var(--ink);font-weight:400;letter-spacing:.04em;}
+.title .rare-char{color:var(--seal);}
+p.lede{max-width:560px;color:var(--ink-soft);font-size:16px;margin:0;}
+.hero-seal{position:absolute;right:24px;top:48px;width:86px;height:86px;border:3px solid var(--seal);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--seal);font-family:'TW-Kai-Plus','TW-Kai',serif;font-size:34px;transform:rotate(-4deg);opacity:.88;}
+@media(max-width:640px){.hero-seal{display:none;}}
+
+.search-panel{margin-top:28px;background:var(--paper-card);border:1px solid var(--line);border-radius:10px;padding:22px 24px 20px;box-shadow:0 1px 0 rgba(0,0,0,.03);}
+.search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.search-row input[type=text]{flex:1;min-width:200px;font-family:'Times New Roman','TW-Kai',serif;font-size:16px;padding:10px 14px;border:1px solid var(--stone);border-radius:6px;background:#fff;color:var(--ink);}
+.go-btn{font-family:'TW-Kai',serif;font-size:15px;background:var(--seal);color:#fff;border:none;padding:11px 22px;border-radius:6px;cursor:pointer;transition:.15s;}
+.go-btn:hover{background:var(--seal-deep);}
+.search-explain{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink-soft);font-family:'Times New Roman',serif;line-height:1.75;}
+.search-explain p{margin:0 0 8px;}
+.search-explain .ex{color:var(--stone);font-size:12.5px;}
+
+.sync-banner{background:var(--paper-deep);border:1px solid var(--line);border-left:3px solid var(--jade);border-radius:4px;padding:8px 14px;font-size:12.5px;color:var(--ink-soft);font-family:'Times New Roman',serif;margin-top:16px;}
+.result-meta{margin:14px 0 14px;color:var(--ink-soft);font-size:14px;font-family:'Times New Roman',serif;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding-bottom:40px;}
+.card{background:var(--paper-card);border:1px solid var(--line);border-radius:10px;padding:20px 18px 16px;cursor:pointer;position:relative;transition:.18s;}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(38,34,32,.10);border-color:var(--gold);}
+.card .glyph{font-size:64px;text-align:center;color:var(--ink);margin-bottom:8px;line-height:1.1;}
+.card .py{text-align:center;font-family:'Times New Roman',serif;color:var(--jade);font-size:14px;margin-bottom:2px;}
+.card .zy{text-align:center;font-family:'Times New Roman',serif;color:var(--ink-soft);font-size:13px;}
+.stroke-seal{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--seal);color:var(--seal);display:flex;align-items:center;justify-content:center;font-size:12px;font-family:'Times New Roman',serif;}
+.glyph-img{display:block;margin:0 auto 8px;height:64px;max-width:90%;object-fit:contain;filter:grayscale(1) contrast(1.1);}
+.detail-glyph-img{height:96px;max-width:180px;object-fit:contain;filter:grayscale(1) contrast(1.1);}
+.pending-badge{display:inline-block;font-family:'Times New Roman',serif;font-size:11px;border:1px dashed var(--gold);color:var(--gold);border-radius:12px;padding:2px 9px;margin-bottom:6px;letter-spacing:.05em;}
+.empty{text-align:center;color:var(--stone);padding:60px 0;font-family:'Times New Roman',serif;}
+
+.overlay{position:fixed;inset:0;background:rgba(38,34,32,.55);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;z-index:50;}
+.overlay.show{display:flex;}
+.detail{background:var(--paper-card);max-width:640px;width:100%;border-radius:12px;padding:34px 34px 28px;position:relative;border:1px solid var(--line);}
+.close-x{position:absolute;top:16px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--stone);}
+.detail-head{display:flex;gap:22px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px;}
+.detail-glyph{font-size:96px;line-height:1;color:var(--ink);}
+.field-table{width:100%;border-collapse:collapse;margin-bottom:18px;}
+.field-table tr{border-bottom:1px dashed var(--line);}
+.field-table td{padding:8px 4px;vertical-align:top;font-size:14.5px;}
+.field-table td:first-child{width:110px;color:var(--jade);font-family:'Times New Roman',serif;font-size:13px;letter-spacing:.05em;}
+.def-block{background:var(--paper);border-left:3px solid var(--gold);padding:12px 16px;border-radius:4px;margin-bottom:18px;font-size:15px;}
+.refs h4, .report-toggle h4{font-family:'Times New Roman',serif;font-size:13px;letter-spacing:.06em;color:var(--stone);text-transform:uppercase;margin:0 0 8px;}
+.ref-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:13.5px;color:var(--ink-soft);}
+.ref-item img{width:64px;height:64px;object-fit:cover;border:1px solid var(--line);border-radius:4px;flex-shrink:0;}
+.report-toggle{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;}
+.report-btn{font-family:'Times New Roman',serif;background:none;border:1px solid var(--seal);color:var(--seal);padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;}
+.report-form{display:none;margin-top:14px;gap:8px;flex-direction:column;}
+.report-form.show{display:flex;}
+.report-form textarea, .report-form input{font-family:'Times New Roman',serif;padding:8px 10px;border:1px solid var(--stone);border-radius:6px;font-size:13.5px;}
+.report-form button{align-self:flex-start;background:var(--jade);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-family:'Times New Roman',serif;}
+.report-status{font-size:12.5px;color:var(--jade);margin-top:6px;font-family:'Times New Roman',serif;}
+
+footer{text-align:center;padding:30px 0 50px;color:var(--stone);font-size:12px;font-family:'Times New Roman',serif;letter-spacing:.04em;}
+
+/* ================= ADMIN ================= */
+#adminView{display:none;}
+.login-screen{max-width:380px;margin:80px auto;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:34px;}
+.login-screen h2{font-family:'WenJinMincho','TW-Kai',serif;font-weight:400;margin-top:0;}
+.login-screen input{width:100%;padding:10px 12px;border:1px solid var(--stone);border-radius:6px;margin-bottom:12px;font-family:'Times New Roman',serif;font-size:14px;}
+.login-screen button{width:100%;padding:10px;background:var(--seal);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:'Times New Roman',serif;}
+.login-screen .fp{display:block;text-align:center;margin-top:12px;font-size:12.5px;color:var(--jade);cursor:pointer;font-family:'Times New Roman',serif;}
+.login-err{color:var(--seal);font-size:12.5px;margin-bottom:10px;font-family:'Times New Roman',serif;}
+
+.topbar{background:var(--indigo);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.topbar h1{font-size:18px;margin:0;font-weight:400;letter-spacing:.05em;}
+.topbar .sub{font-family:'Times New Roman',serif;font-size:12px;opacity:.75;}
+.tabs{display:flex;gap:8px;align-items:center;}
+.tabs button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:20px;cursor:pointer;font-family:'Times New Roman',serif;font-size:13px;}
+.tabs button.active{background:#fff;color:var(--indigo);border-color:#fff;}
+.tabs .ghost-btn{background:transparent;border:1px solid rgba(255,255,255,.4);}
+
+.admin-wrap{max-width:1100px;margin:0 auto;padding:26px 24px 70px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.toolbar-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+.toolbar-row input[type=text]{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--stone);border-radius:6px;font-family:'Times New Roman',serif;}
+.btn{font-family:'Times New Roman',serif;font-size:13.5px;padding:9px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--stone);background:#fff;}
+.btn.primary{background:var(--seal);color:#fff;border-color:var(--seal);}
+.btn.secondary{background:var(--jade);color:#fff;border-color:var(--jade);}
+.btn.ghost{background:transparent;}
+.list-table{width:100%;border-collapse:collapse;background:var(--paper-card);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.list-table th, .list-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;}
+.list-table th{background:var(--paper);font-family:'Times New Roman',serif;font-size:12.5px;letter-spacing:.05em;color:var(--stone);}
+.list-table tr:hover{background:#fff;}
+.glyph-cell{font-size:26px;}
+.glyph-cell img{height:30px;object-fit:contain;filter:grayscale(1);}
+.row-actions button{margin-right:6px;}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.field label{display:block;font-family:'Times New Roman',serif;font-size:12.5px;color:var(--stone);margin-bottom:5px;letter-spacing:.04em;}
+.field input, .field select{width:100%;padding:9px 11px;border:1px solid var(--stone);border-radius:6px;font-family:'Times New Roman','TW-Kai',serif;font-size:15px;}
+.field.glyph-input input{font-size:26px;font-family:'TW-Kai',serif;}
+.font-preview{margin-top:6px;font-size:34px;padding:8px;border:1px dashed var(--line);border-radius:6px;text-align:center;background:#fff;}
+.checkline{display:flex;align-items:center;gap:8px;font-family:'Times New Roman',serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:10px;}
+.img-upload-box{border:1px dashed var(--stone);border-radius:8px;padding:16px;text-align:center;background:#fff;}
+.img-upload-box img{max-height:100px;max-width:100%;display:block;margin:0 auto 8px;filter:grayscale(1);}
+
+.wysiwyg-toolbar{display:flex;gap:4px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--stone);border-bottom:none;border-radius:6px 6px 0 0;padding:6px;align-items:center;}
+.wysiwyg-toolbar button{width:32px;height:32px;border:1px solid transparent;background:transparent;border-radius:4px;cursor:pointer;font-family:'Times New Roman',serif;font-weight:bold;font-size:14px;}
+.wysiwyg-toolbar button:hover{background:#fff;border-color:var(--stone);}
+.wysiwyg-toolbar select{padding:6px 8px;border:1px solid var(--stone);border-radius:4px;font-size:12.5px;font-family:'Times New Roman',serif;}
+.wysiwyg-body{min-height:130px;border:1px solid var(--stone);border-radius:0 0 6px 6px;padding:12px 14px;background:#fff;font-size:15px;}
+.wysiwyg-body:focus{outline:2px solid var(--gold);}
+.wysiwyg-hint{font-size:12px;color:var(--stone);font-family:'Times New Roman',serif;margin:6px 0 0;}
+
+.ref-list{margin-top:8px;}
+.ref-row{display:flex;gap:10px;align-items:center;margin-bottom:8px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 10px;}
+.ref-row img{width:48px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--line);}
+.ref-row input{flex:1;border:1px solid var(--stone);border-radius:5px;padding:6px 8px;font-family:'Times New Roman',serif;font-size:13px;}
+.ref-row .rm{color:var(--seal);background:none;border:none;cursor:pointer;font-size:16px;}
+
+.section-title{font-family:'Times New Roman',serif;font-size:13px;letter-spacing:.05em;color:var(--stone);margin:22px 0 8px;text-transform:uppercase;}
+.save-bar{display:flex;gap:10px;margin-top:24px;padding-top:16px;border-top:1px solid var(--line);}
+
+.report-card{background:var(--paper-card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;}
+.report-card .meta{font-family:'Times New Roman',serif;font-size:12px;color:var(--stone);margin-bottom:6px;}
+.report-card .txt{font-size:14.5px;margin-bottom:8px;}
+.info-box{background:var(--paper-card);border-left:3px solid var(--gold);padding:12px 16px;border-radius:4px;font-size:13.5px;color:var(--ink-soft);margin-bottom:18px;}
+</style>
+</head>
+<body>
+
+<div class="site-topnav">
+  <span class="site-mark" onclick="showPublicView()">僻字考究網</span>
+  <div class="nav-actions">
+    <button class="nav-btn" onclick="showPublicView()">首頁</button>
+    <span class="nav-link" onclick="showAdminView()">後臺</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PUBLIC VIEW                                                    -->
+<!-- ============================================================ -->
+<div id="publicView">
+<div class="wrap">
+  <header class="hero">
+    <h1 class="title"><span class="rare-char">僻</span>字考究網</h1>
+    <p class="lede">收錄教育部《異體字字典》中未收錄之字。</p>
+    <div class="hero-seal">僻</div>
+  </header>
+
+  <section class="search-panel">
+    <div class="search-row">
+      <input type="text" id="q-main" placeholder="輸入文字、注音、部首＋筆畫或部件組合，例如：優 / ㄧㄡ / 人17 / ⿰亻憂">
+      <button class="go-btn" onclick="runSearch()">檢索</button>
+    </div>
+    <div class="search-explain">
+      <p>1、檢索方式：輸入「文字」或「注音」或「部首與總筆畫數」或「符號與部件」。<br>
+      <span class="ex">（範例：欲查詢「優」時，可輸入「優」或「ㄧㄡ」或「人17」或「⿰亻憂」。）</span></p>
+      <p>2、使用部首與總筆畫數檢索時，勿以偏旁化來檢索，以免檢索不到。<br>
+      <span class="ex">（範例：請用「人」，不要用「亻」、請用「艸」，不要用「艹」等。）</span></p>
+    </div>
+  </section>
+
+  <div class="sync-banner" id="syncBanner" style="display:none;"></div>
+  <div class="result-meta" id="resultMeta"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="detail" id="detailBox"></div>
+</div>
+
+<footer>僻字考究網 — 資料持續增補中</footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- ADMIN VIEW                                                     -->
+<!-- ============================================================ -->
+<div id="adminView">
+
+  <div id="loginScreen" class="login-screen" style="display:none;">
+    <h2>後臺登入</h2>
+    <div class="login-err" id="loginErr"></div>
+    <input type="email" id="loginEmail" placeholder="管理者 Email">
+    <input type="password" id="loginPass" placeholder="密碼">
+    <button onclick="doLogin()">登入</button>
+    <span class="fp" onclick="doForgotPassword()">忘記密碼？</span>
+  </div>
+
+  <div id="adminApp" style="display:none;">
+    <div class="topbar">
+      <div>
+        <h1>僻字考究網 · 後臺</h1>
+        <div class="sub" id="modeSub">資料以本機瀏覽器暫存</div>
+      </div>
+      <div class="tabs">
+        <button data-tab="list" class="active">字條管理</button>
+        <button data-tab="reports">回報信箱</button>
+        <button class="ghost-btn" id="signoutBtn" onclick="doSignOut()" style="display:none;">登出</button>
+      </div>
+    </div>
+
+    <div class="admin-wrap">
+      <div class="panel active" id="panel-list">
+        <div class="info-box" id="listInfoBox"></div>
+        <div class="toolbar-row">
+          <input type="text" id="listSearch" placeholder="搜尋字條（文字／拼音／部首）">
+          <button class="btn primary" onclick="newEntry()">＋ 新增字條</button>
+          <label class="btn secondary" style="cursor:pointer;" id="importLabel">匯入 data.json
+            <input type="file" id="importFile" accept="application/json" style="display:none">
+          </label>
+          <button class="btn" onclick="exportData()">匯出 data.json（備份用）</button>
+        </div>
+        <table class="list-table">
+          <thead><tr><th></th><th>字</th><th>拼音</th><th>部首</th><th>筆畫</th><th>字型</th><th></th></tr></thead>
+          <tbody id="listBody"></tbody>
+        </table>
+      </div>
+
+      <div class="panel" id="panel-editor">
+        <button class="btn ghost" onclick="showList()">← 返回列表</button>
+
+        <div class="checkline">
+          <input type="checkbox" id="f-isimage" onchange="toggleImageMode()">
+          <label for="f-isimage">此字尚未造字／無對應 Unicode，暫以圖片表示</label>
+        </div>
+
+        <div class="form-grid">
+          <div class="field glyph-input" id="charTextField">
+            <label>字（可貼上 Ext-B 或喃字）</label>
+            <input type="text" id="f-char" maxlength="4">
+          </div>
+          <div class="field" id="charImageField" style="display:none;">
+            <label>字形圖片（掃描／手寫／截圖皆可）</label>
+            <div class="img-upload-box" id="charImgBox">
+              <div id="charImgPreviewWrap"></div>
+              <input type="file" accept="image/*" onchange="uploadCharImage(event)">
+            </div>
+          </div>
+          <div class="field" id="charFontField">
+            <label>指定顯示字型（標題字）</label>
+            <select id="f-font">
+              <option value="tw-kai">標楷體 TW-Kai（一般文字預設）</option>
+              <option value="tw-kai-plus">TW-Kai-Plus（增補字）</option>
+              <option value="tw-kai-ext-b">TW-Kai-ExtB（CJK 擴展區 B）</option>
+              <option value="nomnatong">NomNaTong（喃字）</option>
+              <option value="wenjinmincho">文津明朝（展示 / 古籍風格）</option>
+            </select>
+            <div class="font-preview" id="fontPreview">預覽</div>
+          </div>
+          <div class="field">
+            <label>部首</label>
+            <input type="text" id="f-radical">
+          </div>
+          <div class="field">
+            <label>總筆畫數</label>
+            <input type="text" id="f-strokes">
+          </div>
+          <div class="field">
+            <label>表意文字描述字元（IDS）</label>
+            <input type="text" id="f-ids" placeholder="⿰言龍">
+          </div>
+          <div class="field">
+            <label>注音（可多筆，如：（一）ㄋㄤˋ（二）ㄋㄤˊ）</label>
+            <input type="text" id="f-zhuyin" placeholder="（一）ㄋㄤˋ（二）ㄋㄤˊ">
+          </div>
+          <div class="field">
+            <label>漢語拼音（可多筆，如：（一）nàng（二）náng）</label>
+            <input type="text" id="f-pinyin" placeholder="（一）nàng（二）náng">
+          </div>
+        </div>
+
+        <div class="section-title">釋義（所見即所得編輯，可逐字選字指定字型）</div>
+        <div class="wysiwyg-toolbar">
+          <button onclick="fmt('bold')" title="粗體"><b>B</b></button>
+          <button onclick="fmt('italic')" title="斜體"><i>I</i></button>
+          <button onclick="fmt('underline')" title="底線"><u>U</u></button>
+          <button onclick="fmt('insertUnorderedList')" title="項目符號">•≡</button>
+          <button onclick="fmt('insertOrderedList')" title="編號清單">1≡</button>
+          <button onclick="fmt('formatBlock','<blockquote>')" title="引文">❝</button>
+          <button onclick="fmt('removeFormat')" title="清除格式">Tx</button>
+          <select id="fontSelectInline" onchange="applyInlineFont(this.value)">
+            <option value="">套用字型到選取文字…</option>
+            <option value="TW-Kai">標楷體</option>
+            <option value="TW-Kai-Plus">TW-Kai-Plus</option>
+            <option value="TW-Kai-ExtB">TW-Kai-ExtB</option>
+            <option value="NomNaTong">喃字 NomNaTong</option>
+            <option value="WenJinMincho">文津明朝</option>
+            <option value="Times New Roman">Times New Roman（拼音／英數）</option>
+          </select>
+        </div>
+        <div class="wysiwyg-body" id="f-definition" contenteditable="true"></div>
+        <div class="wysiwyg-hint">提示：在釋義中選取單一或多個文字後，從上方下拉選單套用字型，可逐字混用不同字型。</div>
+
+        <div class="section-title">參考文獻（可附圖片）</div>
+        <div class="ref-list" id="refList"></div>
+        <button class="btn" onclick="addRefRow()">＋ 新增參考文獻</button>
+
+        <div class="save-bar">
+          <button class="btn primary" onclick="saveEntry()">儲存字條</button>
+          <button class="btn" onclick="deleteEntry()" id="deleteBtn">刪除此字條</button>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-reports">
+        <div class="info-box" id="reportsInfoBox"></div>
+        <div class="toolbar-row">
+          <button class="btn" onclick="renderReports()">重新整理</button>
+          <button class="btn" onclick="clearReports()">清空信箱</button>
+        </div>
+        <div id="reportsBody"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+/* ====== Firebase 設定 ======
+   請至 Firebase 主控台 → 專案設定 → 一般 → 您的應用程式，複製設定物件貼到下方。
+   填入後，前後台會自動改用 Firestore 即時同步：後臺存檔後，前台立刻（重新整理即可）看到最新資料，
+   不需要匯出/匯入 data.json 或手動上傳檔案。
+   在設定完成前（apiKey 仍是 YOUR_API_KEY），網站會暫時改用同資料夾的 data.json 作為示範資料，
+   後臺則以本機瀏覽器暫存運作，方便您在正式串接前先熟悉介面。
+*/
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
+let db = null, auth = null;
+if(FIREBASE_ENABLED){
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.firestore();
+  auth = firebase.auth();
+}
+
+/* 圖片一律壓縮後以 base64 直接存進 Firestore 文件（不使用 Firebase Storage，避免需要升級付費方案）。
+   maxDim：長邊上限像素；quality：JPEG 壓縮品質（0~1）。 */
+function compressImage(file, maxDim, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w > maxDim || h > maxDim){
+          if(w > h){ h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+const FONT_MAP = {'tw-kai':'TW-Kai','tw-kai-plus':'TW-Kai-Plus','tw-kai-ext-b':'TW-Kai-ExtB','nomnatong':'NomNaTong','wenjinmincho':'WenJinMincho'};
+const FONT_LABEL = {'tw-kai':'標楷體','tw-kai-plus':'TW-Kai-Plus','tw-kai-ext-b':'TW-Kai-ExtB','nomnatong':'喃字','wenjinmincho':'文津明朝'};
+const CN_NUM = ['一','二','三','四','五','六','七','八','九','十'];
+
+let DATA = [];
+let currentId = null;
+let refsData = [];
+let charImageData = '';
+
+/* ---------------- enumerated field helpers（（一）（二）格式） ---------------- */
+function parseEnumField(text){
+  if(!text) return [];
+  const parts = text.split(/（[一二三四五六七八九十]+）/).map(s=>s.trim()).filter(Boolean);
+  if(parts.length) return parts;
+  return text.trim() ? [text.trim()] : [];
+}
+function formatEnumField(arr){
+  return (arr||[]).map((v,i)=>`（${CN_NUM[i]||(i+1)}）${v}`).join('');
+}
+
+/* ---------------- view switching ---------------- */
+function showAdminView(){
+  document.getElementById('publicView').style.display = 'none';
+  document.getElementById('adminView').style.display = 'block';
+  location.hash = 'admin';
+  if(FIREBASE_ENABLED && auth.currentUser){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminApp').style.display='block';
+  } else if(FIREBASE_ENABLED){
+    document.getElementById('loginScreen').style.display='block';
+    document.getElementById('adminApp').style.display='none';
+  }
+}
+function showPublicView(){
+  document.getElementById('adminView').style.display = 'none';
+  document.getElementById('publicView').style.display = 'block';
+  if(location.hash === '#admin') history.replaceState(null,'',location.pathname);
+}
+if(location.hash === '#admin'){ showAdminView(); }
+
+/* ---------------- data loading (shared by public + admin) ---------------- */
+function showSyncBanner(msg){
+  const b = document.getElementById('syncBanner');
+  b.style.display='block'; b.textContent = msg;
+}
+
+if(FIREBASE_ENABLED){
+  db.collection('characters').onSnapshot(snapshot=>{
+    DATA = snapshot.docs.map(d=>({id:d.id, ...d.data()}));
+    runSearch();
+    renderList();
+  }, err=>{
+    document.getElementById('grid').innerHTML = '<div class="empty">無法連接資料庫，請確認 FIREBASE_CONFIG 已正確填入，且 Firestore 安全規則允許讀取 characters collection。</div>';
+    console.error(err);
+  });
+
+  document.getElementById('loginScreen').style.display='block';
+  document.getElementById('signoutBtn').style.display='inline-block';
+  auth.onAuthStateChanged(user=>{
+    if(location.hash !== '#admin') return;
+    if(user){
+      document.getElementById('loginScreen').style.display='none';
+      document.getElementById('adminApp').style.display='block';
+      document.getElementById('modeSub').textContent = '已登入：' + user.email + '（Firestore 即時同步中）';
+      document.getElementById('listInfoBox').textContent = '新增／編輯字條後按「儲存字條」即會直接寫入資料庫，前台重新整理即可看到最新內容，不需要手動匯出或上傳檔案。「匯出 data.json」按鈕僅供額外備份使用。';
+      document.getElementById('reportsInfoBox').textContent = '此處即時顯示前台使用者送出的問題回報（Firestore 同步，跨裝置可見）。';
+      document.getElementById('importLabel').style.display='none';
+    } else {
+      document.getElementById('loginScreen').style.display='block';
+      document.getElementById('adminApp').style.display='none';
+    }
+  });
+} else {
+  showSyncBanner('目前尚未設定 Firebase，網站讀取的是同資料夾的 data.json 示範資料。設定 FIREBASE_CONFIG 後，將改為登入制、即時資料庫同步，不再需要手動處理檔案。');
+  document.getElementById('adminApp').style.display='block';
+  document.getElementById('modeSub').textContent = '本機示範模式（尚未設定 Firebase，資料僅存在此瀏覽器）';
+  document.getElementById('listInfoBox').textContent = '尚未設定 Firebase：目前資料僅存在此瀏覽器。設定 FIREBASE_CONFIG 後，資料將直接存入資料庫，重新整理頁面即可看到最新內容。';
+  document.getElementById('reportsInfoBox').textContent = '尚未設定 Firebase：此處僅顯示同一瀏覽器上使用者送出的回報。';
+  loadLocal();
+}
+
+function loadLocal(){
+  const raw = localStorage.getItem('rareCharData');
+  if(raw){ DATA = JSON.parse(raw); runSearch(); renderList(); return; }
+  fetch('data.json').then(r=>r.json()).then(json=>{
+    DATA = json; persistLocal();
+    runSearch(); renderList();
+  }).catch(()=>{
+    document.getElementById('grid').innerHTML = '<div class="empty">找不到 data.json，請確認檔案與 index.html 位於同一資料夾。</div>';
+  });
+}
+function persistLocal(){ localStorage.setItem('rareCharData', JSON.stringify(DATA)); }
+
+/* ================= PUBLIC: unified search & display ================= */
+function stripTone(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[1-5]/g,'').trim();
+}
+
+function runSearch(){
+  const raw = (document.getElementById('q-main').value||'').trim();
+  let results = DATA;
+  if(raw){
+    const idsRegex = /[\u2FF0-\u2FFB]/;
+    const zhuyinRegex = /^[\u3105-\u312f\u02d9\u02ca\u02cb\u02c7\s]+$/;
+    const radicalStrokeRegex = /^([^\d\s]{1,3})\s*(\d{1,3})$/;
+
+    if(idsRegex.test(raw)){
+      results = DATA.filter(d=>(d.ids||'').includes(raw));
+    } else if(zhuyinRegex.test(raw)){
+      results = DATA.filter(d=>(d.zhuyin||[]).some(z=>z.includes(raw)));
+    } else if(radicalStrokeRegex.test(raw)){
+      const m = raw.match(radicalStrokeRegex);
+      const rad = m[1], strokes = parseInt(m[2]);
+      results = DATA.filter(d=> d.radical===rad && d.totalStrokes===strokes);
+    } else {
+      results = DATA.filter(d=>
+        (d.char||'').includes(raw) ||
+        (d.zhuyin||[]).some(z=>z.includes(raw)) ||
+        (d.pinyin||[]).some(p=>stripTone(p).includes(stripTone(raw))) ||
+        (d.radical||'').includes(raw) ||
+        (d.definition||'').replace(/<[^>]+>/g,'').includes(raw)
+      );
+    }
+  }
+  renderGrid(results);
+}
+document.getElementById('q-main').addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(); });
+
+function renderGrid(list){
+  const grid = document.getElementById('grid');
+  document.getElementById('resultMeta').textContent = `共 ${list.length} 筆結果`;
+  if(list.length===0){
+    grid.innerHTML = '<div class="empty">查無符合條件的字，換個關鍵字試試。</div>';
+    return;
+  }
+  grid.innerHTML = list.map(d=>`
+    <div class="card" onclick="openDetail('${d.id}')">
+      <div class="stroke-seal">${d.totalStrokes}</div>
+      ${d.charImage ? `<img class="glyph-img" src="${d.charImage}" alt="未造字">` : `<div class="glyph" style="font-family:'${FONT_MAP[d.font]||'TW-Kai'}',serif;">${d.char||'□'}</div>`}
+      <div class="py">${(d.pinyin||[]).join('、')}</div>
+      <div class="zy">${(d.zhuyin||[]).join('、')}</div>
+    </div>
+  `).join('');
+}
+
+function openDetail(id){
+  const d = DATA.find(x=>x.id===id);
+  const box = document.getElementById('detailBox');
+  const refsHtml = (d.references && d.references.length)
+    ? d.references.map(r=>`
+        <div class="ref-item">
+          ${r.img ? `<img src="${r.img}" alt="參考圖片">` : ''}
+          <div>${r.caption||''}</div>
+        </div>`).join('')
+    : '<div class="ref-item">（尚無參考文獻圖片）</div>';
+
+  box.innerHTML = `
+    <button class="close-x" onclick="closeDetail()">✕</button>
+    <div class="detail-head">
+      ${d.charImage
+        ? `<div><div class="pending-badge">尚未造字，暫以圖片呈現</div><br><img class="detail-glyph-img" src="${d.charImage}" alt="未造字"></div>`
+        : `<div class="detail-glyph" style="font-family:'${FONT_MAP[d.font]||'TW-Kai'}',serif;">${d.char||'□'}</div>`}
+    </div>
+    <table class="field-table">
+      <tr><td>注音</td><td style="font-family:'Times New Roman',serif;">${(d.zhuyin||[]).join('、')}</td></tr>
+      <tr><td>漢語拼音</td><td style="font-family:'Times New Roman',serif;">${(d.pinyin||[]).join('、')}</td></tr>
+      <tr><td>部首</td><td>${d.radical||''}</td></tr>
+      <tr><td>總筆畫數</td><td>${d.totalStrokes||0} 畫</td></tr>
+      <tr><td>表意描述字元</td><td style="font-family:'Times New Roman',serif;">${d.ids||''}</td></tr>
+    </table>
+    <div class="def-block">${d.definition||''}</div>
+    <div class="refs">
+      <h4>參考文獻</h4>
+      ${refsHtml}
+    </div>
+    <div class="report-toggle">
+      <button class="report-btn" onclick="toggleReport()">回報此字資料問題</button>
+      <div class="report-form" id="reportForm">
+        <input type="text" id="rep-contact" placeholder="聯絡方式（選填，Email 或其他）">
+        <textarea id="rep-text" rows="3" placeholder="請描述您發現的問題，例如讀音、釋義或字形有誤…"></textarea>
+        <button onclick="submitReport('${d.id}','${(d.char||'').replace(/'/g,"\\'")}')">送出回報</button>
+        <div class="report-status" id="repStatus"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeDetail(){ document.getElementById('overlay').classList.remove('show'); }
+function toggleReport(){ document.getElementById('reportForm').classList.toggle('show'); }
+
+function submitReport(charId, charText){
+  const contact = document.getElementById('rep-contact').value.trim();
+  const text = document.getElementById('rep-text').value.trim();
+  const statusEl = document.getElementById('repStatus');
+  if(!text){ statusEl.textContent = '請先填寫問題描述。'; return; }
+  const report = { charId, char: charText, contact, text, time: new Date().toISOString(), resolved:false };
+  if(FIREBASE_ENABLED){
+    db.collection('reports').add(report)
+      .then(()=>{ statusEl.textContent = '已送出，感謝您的回報！'; })
+      .catch(err=>{ statusEl.textContent = '送出失敗，請稍後再試。'; console.error(err); });
+  } else {
+    const pending = JSON.parse(localStorage.getItem('pendingReports')||'[]');
+    pending.push(report);
+    localStorage.setItem('pendingReports', JSON.stringify(pending));
+    statusEl.textContent = '已記錄於本機（尚未設定 Firebase，回報僅存在此瀏覽器）。';
+  }
+  document.getElementById('rep-text').value='';
+}
+document.getElementById('overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') closeDetail(); });
+
+/* ================= ADMIN ================= */
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  auth.signInWithEmailAndPassword(email, pass)
+    .catch(err=>{ document.getElementById('loginErr').style.color='var(--seal)'; document.getElementById('loginErr').textContent = '登入失敗：' + err.message; });
+}
+function doForgotPassword(){
+  const email = document.getElementById('loginEmail').value.trim();
+  if(!email){ document.getElementById('loginErr').textContent = '請先輸入 Email 再點選忘記密碼。'; return; }
+  auth.sendPasswordResetEmail(email)
+    .then(()=>{ document.getElementById('loginErr').style.color='var(--jade)'; document.getElementById('loginErr').textContent = '已寄送密碼重設信到 ' + email; })
+    .catch(err=>{ document.getElementById('loginErr').style.color='var(--seal)'; document.getElementById('loginErr').textContent = '寄送失敗：' + err.message; });
+}
+function doSignOut(){ if(FIREBASE_ENABLED) auth.signOut(); }
+
+document.getElementById('importFile').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      DATA = JSON.parse(reader.result);
+      persistLocal(); renderList();
+      alert('匯入成功，共 ' + DATA.length + ' 筆資料。');
+    }catch(err){ alert('匯入失敗：檔案格式錯誤'); }
+  };
+  reader.readAsText(file);
+});
+
+function exportData(){
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'data.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.querySelectorAll('.tabs button[data-tab]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabs button[data-tab]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('#adminApp .panel').forEach(p=>p.classList.remove('active'));
+    if(b.dataset.tab==='list') document.getElementById('panel-list').classList.add('active');
+    if(b.dataset.tab==='reports'){ document.getElementById('panel-reports').classList.add('active'); renderReports(); }
+  });
+});
+
+function renderList(){
+  const searchEl = document.getElementById('listSearch');
+  const q = searchEl ? searchEl.value.trim() : '';
+  const body = document.getElementById('listBody');
+  if(!body) return;
+  let list = DATA;
+  if(q) list = DATA.filter(d=> (d.char||'').includes(q) || (d.pinyin||[]).join('').includes(q) || (d.radical||'').includes(q));
+  body.innerHTML = list.map(d=>`
+    <tr>
+      <td class="glyph-cell">${d.charImage ? `<img src="${d.charImage}">` : `<span style="font-family:'${FONT_MAP[d.font]||'TW-Kai'}',serif;">${d.char||'□'}</span>`}</td>
+      <td>${d.charImage ? '（圖片字）' : d.char}</td>
+      <td style="font-family:'Times New Roman',serif;">${(d.pinyin||[]).join('、')}</td>
+      <td>${d.radical||''}</td>
+      <td>${d.totalStrokes||0}</td>
+      <td>${FONT_LABEL[d.font]||d.font||''}</td>
+      <td class="row-actions"><button class="btn ghost" onclick="editEntry('${d.id}')">編輯</button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:30px;">尚無資料，請新增字條或匯入 data.json</td></tr>';
+}
+document.getElementById('listSearch').addEventListener('input', renderList);
+
+function showList(){
+  document.getElementById('panel-editor').classList.remove('active');
+  document.getElementById('panel-list').classList.add('active');
+}
+function showEditor(){
+  document.getElementById('panel-list').classList.remove('active');
+  document.getElementById('panel-editor').classList.add('active');
+}
+function newEntry(){
+  currentId = null;
+  clearForm();
+  document.getElementById('deleteBtn').style.display = 'none';
+  showEditor();
+}
+function editEntry(id){
+  const d = DATA.find(x=>x.id===id);
+  currentId = id;
+  document.getElementById('f-char').value = d.char||'';
+  document.getElementById('f-zhuyin').value = formatEnumField(d.zhuyin||[]);
+  document.getElementById('f-pinyin').value = formatEnumField(d.pinyin||[]);
+  document.getElementById('f-radical').value = d.radical||'';
+  document.getElementById('f-strokes').value = d.totalStrokes||'';
+  document.getElementById('f-ids').value = d.ids||'';
+  document.getElementById('f-font').value = d.font||'tw-kai';
+  document.getElementById('f-definition').innerHTML = d.definition||'';
+  refsData = (d.references||[]).slice();
+  charImageData = d.charImage || '';
+  document.getElementById('f-isimage').checked = !!d.charImage;
+  toggleImageMode();
+  renderCharImgPreview();
+  renderRefRows();
+  updateFontPreview();
+  document.getElementById('deleteBtn').style.display = 'inline-block';
+  showEditor();
+}
+function clearForm(){
+  ['f-char','f-zhuyin','f-pinyin','f-radical','f-strokes','f-ids'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-font').value='tw-kai';
+  document.getElementById('f-definition').innerHTML='';
+  document.getElementById('f-isimage').checked = false;
+  refsData = [];
+  charImageData = '';
+  toggleImageMode();
+  renderCharImgPreview();
+  renderRefRows();
+  updateFontPreview();
+}
+function toggleImageMode(){
+  const isImg = document.getElementById('f-isimage').checked;
+  document.getElementById('charTextField').style.display = isImg ? 'none' : 'block';
+  document.getElementById('charImageField').style.display = isImg ? 'block' : 'none';
+  document.getElementById('charFontField').style.display = isImg ? 'none' : 'block';
+}
+function renderCharImgPreview(){
+  const wrap = document.getElementById('charImgPreviewWrap');
+  wrap.innerHTML = charImageData ? `<img src="${charImageData}" style="max-height:100px;">` : '<div style="color:var(--stone);font-size:12.5px;margin-bottom:8px;">尚未上傳圖片</div>';
+}
+function uploadCharImage(e){
+  const file = e.target.files[0]; if(!file) return;
+  compressImage(file, 900, 0.82).then(dataUrl=>{
+    charImageData = dataUrl;
+    renderCharImgPreview();
+  }).catch(()=>alert('圖片處理失敗，請換一張圖片再試。'));
+}
+document.getElementById('f-char').addEventListener('input', updateFontPreview);
+document.getElementById('f-font').addEventListener('change', updateFontPreview);
+function updateFontPreview(){
+  const ch = document.getElementById('f-char').value || '字';
+  const font = document.getElementById('f-font').value;
+  const el = document.getElementById('fontPreview');
+  el.style.fontFamily = `'${FONT_MAP[font]}',serif`;
+  el.textContent = ch;
+}
+function fmt(cmd, val){ document.execCommand(cmd, false, val||null); document.getElementById('f-definition').focus(); }
+function applyInlineFont(family){
+  if(!family) return;
+  document.getElementById('f-definition').focus();
+  document.execCommand('fontName', false, family);
+  document.getElementById('fontSelectInline').value = '';
+}
+function addRefRow(){ refsData.push({img:'', caption:''}); renderRefRows(); }
+function renderRefRows(){
+  const wrap = document.getElementById('refList');
+  if(!wrap) return;
+  wrap.innerHTML = refsData.map((r,i)=>`
+    <div class="ref-row">
+      ${r.img ? `<img src="${r.img}">` : '<div style="width:48px;height:48px;background:#eee;border-radius:4px;"></div>'}
+      <label class="btn ghost" style="cursor:pointer;padding:6px 10px;">上傳圖片
+        <input type="file" accept="image/*" style="display:none" onchange="uploadRefImg(event,${i})">
+      </label>
+      <input type="text" placeholder="說明文字（如：《廣韻》某某卷）" value="${(r.caption||'').replace(/"/g,'&quot;')}" onchange="refsData[${i}].caption=this.value">
+      <button class="rm" onclick="removeRef(${i})">✕</button>
+    </div>
+  `).join('');
+}
+function uploadRefImg(e, i){
+  const file = e.target.files[0]; if(!file) return;
+  compressImage(file, 700, 0.8).then(dataUrl=>{
+    refsData[i].img = dataUrl;
+    renderRefRows();
+  }).catch(()=>alert('圖片處理失敗，請換一張圖片再試。'));
+}
+function removeRef(i){ refsData.splice(i,1); renderRefRows(); }
+
+function saveEntry(){
+  const isImg = document.getElementById('f-isimage').checked;
+  const char = document.getElementById('f-char').value.trim();
+  if(!isImg && !char){ alert('請輸入字，或勾選「尚未造字」改用圖片。'); return; }
+  if(isImg && !charImageData){ alert('請上傳字形圖片。'); return; }
+  const entry = {
+    char: isImg ? '' : char,
+    charImage: isImg ? charImageData : '',
+    zhuyin: parseEnumField(document.getElementById('f-zhuyin').value),
+    pinyin: parseEnumField(document.getElementById('f-pinyin').value),
+    radical: document.getElementById('f-radical').value.trim(),
+    totalStrokes: parseInt(document.getElementById('f-strokes').value)||0,
+    ids: document.getElementById('f-ids').value.trim(),
+    definition: document.getElementById('f-definition').innerHTML,
+    references: refsData,
+    font: isImg ? '' : document.getElementById('f-font').value
+  };
+  const sizeKB = Math.round(JSON.stringify(entry).length / 1024);
+  if(sizeKB > 900){
+    alert('這筆字條資料大小約 ' + sizeKB + 'KB，接近 Firestore 單筆文件 1MB 上限，可能無法儲存。請減少參考文獻圖片數量，或使用較小的圖片後再試一次。');
+    return;
+  }
+  if(FIREBASE_ENABLED){
+    const promise = currentId ? db.collection('characters').doc(currentId).set(entry) : db.collection('characters').add(entry);
+    promise.then(()=>{ showList(); }).catch(err=>alert('儲存失敗：'+err.message));
+  } else {
+    entry.id = currentId || ('c' + Date.now());
+    if(currentId){ const idx = DATA.findIndex(x=>x.id===currentId); DATA[idx] = entry; }
+    else { DATA.push(entry); }
+    persistLocal(); renderList(); runSearch(); showList();
+  }
+}
+function deleteEntry(){
+  if(!currentId) return;
+  if(!confirm('確定要刪除此字條嗎？')) return;
+  if(FIREBASE_ENABLED){
+    db.collection('characters').doc(currentId).delete().then(showList).catch(err=>alert('刪除失敗：'+err.message));
+  } else {
+    DATA = DATA.filter(x=>x.id!==currentId);
+    persistLocal(); renderList(); runSearch(); showList();
+  }
+}
+
+function renderReports(){
+  if(FIREBASE_ENABLED){
+    db.collection('reports').orderBy('time','desc').get().then(snap=>{
+      paintReports(snap.docs.map(d=>({id:d.id, ...d.data()})), true);
+    }).catch(err=>{ document.getElementById('reportsBody').innerHTML = '<div style="color:var(--seal);">讀取失敗：'+err.message+'</div>'; });
+  } else {
+    paintReports(JSON.parse(localStorage.getItem('pendingReports')||'[]').slice().reverse(), false);
+  }
+}
+function paintReports(reports, isFirestore){
+  const body = document.getElementById('reportsBody');
+  if(reports.length===0){ body.innerHTML = '<div style="color:var(--stone);text-align:center;padding:30px;">目前信箱是空的</div>'; return; }
+  body.innerHTML = reports.map(r=>`
+    <div class="report-card">
+      <div class="meta">${new Date(r.time).toLocaleString('zh-TW')} · 字：${r.char||'（無）'}${r.contact ? ' · 聯絡方式：'+r.contact : ''}</div>
+      <div class="txt">${r.text}</div>
+      ${isFirestore ? `<button class="btn ghost" onclick="deleteReport('${r.id}')">刪除</button>` : ''}
+    </div>
+  `).join('');
+}
+function deleteReport(id){ db.collection('reports').doc(id).delete().then(renderReports); }
+function clearReports(){
+  if(!confirm('確定清空所有回報紀錄？')) return;
+  if(FIREBASE_ENABLED){
+    db.collection('reports').get().then(snap=>{
+      const batch = db.batch();
+      snap.docs.forEach(d=>batch.delete(d.ref));
+      return batch.commit();
+    }).then(renderReports);
+  } else {
+    localStorage.removeItem('pendingReports');
+    renderReports();
+  }
+}
+</script>
+</body>
+</html>
