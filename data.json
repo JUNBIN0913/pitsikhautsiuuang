@@ -1,0 +1,116 @@
+[
+  {
+    "id": "c001",
+    "char": "齉",
+    "zhuyin": [
+      "ㄋㄤˋ"
+    ],
+    "pinyin": [
+      "nàng"
+    ],
+    "radical": "鼻",
+    "totalStrokes": 36,
+    "ids": "⿰鼻齉省",
+    "definition": "<p>鼻塞而發音不清，俗稱「鼻音濃重」。《廣韻》：「齉，鼻塞聲。」為現行《通用規範漢字表》外筆畫數最多的常用字之一，常見於描述感冒鼻塞時說話含混不清的狀態。</p>",
+    "references": [
+      {
+        "img": "",
+        "caption": "《廣韻·去聲·漾韻》「齉」字條"
+      },
+      {
+        "img": "",
+        "caption": "教育部《異體字字典》正字字形"
+      }
+    ],
+    "font": "tw-kai",
+    "charImage": ""
+  },
+  {
+    "id": "c002",
+    "char": "龘",
+    "zhuyin": [
+      "ㄉㄚˊ"
+    ],
+    "pinyin": [
+      "dá"
+    ],
+    "radical": "龍",
+    "totalStrokes": 48,
+    "ids": "⿲龍龍龍",
+    "definition": "<p>群龍飛騰的樣子。《玉篇·龍部》：「龘，龍行龘龘也。」三龍並列會意，形容龍飛翔奔騰、氣勢磅礴之貌，屬罕用疊形會意字。</p>",
+    "references": [
+      {
+        "img": "",
+        "caption": "《玉篇零卷·龍部》影印本"
+      }
+    ],
+    "font": "tw-kai-plus",
+    "charImage": ""
+  },
+  {
+    "id": "c003",
+    "char": "𪚥",
+    "zhuyin": [
+      "ㄓㄜˊ"
+    ],
+    "pinyin": [
+      "zhé"
+    ],
+    "radical": "言",
+    "totalStrokes": 64,
+    "ids": "⿰言⿲龍龍龍",
+    "definition": "<p>四龍相疊，義同「話多」，見於《康熙字典·備考》，為漢字中筆畫數最多者之一（六十四畫），僅見於字書著錄，實際文獻用例極罕。屬 CJK 統一表意文字擴展區 B（Ext-B）字符，需特定字型方能正確顯示。</p>",
+    "references": [
+      {
+        "img": "",
+        "caption": "《康熙字典·備考·辰集》"
+      }
+    ],
+    "font": "tw-kai-ext-b",
+    "charImage": ""
+  },
+  {
+    "id": "c004",
+    "char": "㗂",
+    "zhuyin": [
+      "ㄒㄧㄥˇ／越南喃字，無標準注音"
+    ],
+    "pinyin": [
+      "xiǎng（漢字讀音對應）"
+    ],
+    "radical": "口",
+    "totalStrokes": 16,
+    "ids": "⿰口聲",
+    "definition": "<p>越南喃字（Chữ Nôm），讀作 <em>tiếng</em>，意為「聲音、語言」，如「㗂越」（tiếng Việt，越南語）。字形借用漢字「聲」表音表義而成，屬喃字典型的形聲組字方式，收錄於《大南國音字彙》等喃字字書。</p>",
+    "references": [
+      {
+        "img": "",
+        "caption": "《大南國音字彙》「㗂」字條"
+      }
+    ],
+    "font": "nomnatong",
+    "charImage": ""
+  },
+  {
+    "id": "c005",
+    "char": "龍",
+    "zhuyin": [
+      "ㄌㄨㄥˊ"
+    ],
+    "pinyin": [
+      "lóng"
+    ],
+    "radical": "龍",
+    "totalStrokes": 16,
+    "ids": "⿰⿱立月⿹𠂉巳",
+    "definition": "<p>傳說中的神異動物，身長能大能小、能飛能潛，古代視為鱗蟲之長，亦為帝王象徵。此條作為展示用例，文字採用文津明朝字型呈現古籍書影般的視覺效果。</p>",
+    "references": [
+      {
+        "img": "",
+        "caption": "示範用例：文津明朝字型展示"
+      }
+    ],
+    "font": "wenjinmincho",
+    "charImage": ""
+  }
+]
